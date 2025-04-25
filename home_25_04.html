@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Maquininha Ton</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --verde-ton: #00b050;
+      --cinza-claro: #f9f9f9;
+      --azul-claro: #e0f7fa;
+      --sombra: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: var(--cinza-claro);
+      color: #333;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      padding-top: 200px;
+      padding-bottom: 50px;
+    }
+
+    .logo {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+
+    header {
+      background-color: var(--verde-ton);
+      color: white;
+      text-align: center;
+      padding: 1.2rem 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      padding: 0 1rem;
+      margin: 0 auto;
+    }
+
+    .nav-menu {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+
+    .nav-button {
+      background-color: white;
+      color: var(--verde-ton);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 2px solid white;
+      font-size: 0.9rem;
+    }
+
+    .nav-button:hover {
+      background-color: var(--verde-ton);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .nav-button.cta {
+      background-color: #ffcc00;
+      color: #333;
+      border-color: #ffcc00;
+    }
+
+    .nav-button.cta:hover {
+      background-color: #e6b800;
+      color: #333;
+    }
+
+    .button {
+      background-color: var(--verde-ton);
+      color: white;
+      padding: 0.6rem 1rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 0.8rem;
+      transition: background 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .button:hover {
+      background-color: #008c40;
+    }
+
+    section {
+      padding: 1.2rem 1rem;
+      max-width: 1200px;
+      margin: auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    section.promo {
+      background-color: #e6ffe2;
+      border-left: 4px solid var(--verde-ton);
+    }
+
+    section .grid-maquininhas {
+      margin-top: 1rem;
+    }
+
+    .grid-maquininhas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    @media (max-width: 599px) {
+      .grid-maquininhas {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .grid-maquininhas {
+        grid-template-columns: repeat(4, minmax(240px, 1fr));
+      }
+    }
+
+    .maquininha {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      max-width: 100%;
+    }
+
+    .maquininha:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,176,80,0.2);
+    }
+
+    .maquininha img {
+      width: 75%;
+      height: 200px;
+      margin: 0 auto;
+      display: block;
+      padding-top: 1rem;
+      object-fit: contain;
+    }
+
+    .maquininha-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+    .maquininha h3 {
+      margin-bottom: 0.6rem;
+      color: var(--verde-ton);
+      font-size: 1.05rem;
+      text-align: center;
+    }
+
+    .maquininha ul {
+      list-style: none;
+      padding-left: 1rem;
+      font-size: 0.9rem;
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+
+    .maquininha ul li::before {
+      content: "✔️";
+      margin-right: 0.4rem;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      background-color: var(--verde-ton);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+      z-index: 999;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+    
+    .whatsapp-button {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: #25d366;
+      color: white;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #1ebc57;
+      transform: scale(1.05);
+    }
+
+    .pagamento-icons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 1rem;
+      justify-items: center;
+      align-items: center;
+      margin: 1.2rem 0;
+    }
+
+    .pagamento-icons img {
+      max-width: 100%;
+      max-height: 50px;
+      object-fit: contain;
+      padding: 0.2rem;
+      filter: grayscale(0%);
+      transition: transform 0.3s ease;
+    }
+
+    .pagamento-icons img:hover {
+      transform: scale(1.05);
+    }
+
+    .promo table {
+      width: 100%;
+      margin-top: 1rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: white;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .promo th,
+    .promo td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+
+    .promo thead {
+      background-color: var(--verde-ton);
+      color: white;
+    }
+
+    .promo tbody tr:hover {
+      background-color: #f1fdf4;
+      transition: background 0.3s ease;
+    }
+
+    .promo th:first-child,
+    .promo td:first-child {
+      text-align: left;
+    }
+	
+	.grid-planos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .plano {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      height: 100%;
+      display: flex;
+    }
+
+    .plano:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,176,80,0.2);
+    }
+
+    .plano-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .plano h3 {
+      color: var(--verde-ton);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .plano ul {
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 160px;
+        overflow-x: hidden;
+      }
+      
+      .grid-planos {
+        grid-template-columns: 1fr;
+      }
+      
+      section {
+        margin: 0 1rem 1.5rem;
+        width: calc(100% - 2rem);
+      }
+      
+      .header-container {
+        padding: 0 0.5rem;
+      }
+      
+      .nav-menu {
+        gap: 0.5rem;
+      }
+      
+      .nav-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .logo {
+        max-width: 250px;
+      }
+      
+      header, footer {
+        position: fixed;
+        width: 100vw;
+        box-sizing: border-box;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a aria-label="Fale conosco no WhatsApp" class="whatsapp-button" href="https://wa.me/5561999361212?text=Ol%C3%A1!%20Entrei%20no%20seu%20site%20da%20Maquininha%20Ton%20e%20me%20interessei%20pelo%20produto.%20Gostaria%20de%20saber%20mais." target="_blank">
+    <i class="fab fa-whatsapp"></i>
+    <span>Fale Conosco</span>
+  </a>
+
+  <header>
+	<div class="header-container">
+        <img alt="Logo Parceira Ton" class="logo" src="Logo Parceira TON4 - sem fundo.png" />
+        <nav class="nav-menu">
+        <a href="#ancora_maquininhas" class="nav-button">Maquininhas</a>
+        <a href="#ancora_formas_pagamentos" class="nav-button">Formas de Pagamento</a>
+        <a href="#ancora_planos" class="nav-button">Planos</a>
+        <a href="#ancora_taxas" class="nav-button">Taxas</a>
+        <a href="#ancora_peca_sua" class="nav-button cta">Peça a sua!</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="promo" id="ancora_maquininhas" style="scroll-margin-top: 8em;">
+    <h2>Conheça as Maquininhas</h2>
+    <p>Escolha a opção perfeita para o seu negócio.</p>
+    
+    <section class="grid-maquininhas">
+      <div class="maquininha">
+        <img alt="T3 Smart Ton Pro" src="T3 Smart.png" />
+        <div class="maquininha-content">
+          <h3>T3 Smart</h3>
+          <ul>
+            <li>Conta com todas as funcionalidades da T3, além de ter chip 4G</li>
+            <li>Touchscreen, NFC, impressão de comprovantes</li>
+            <li>Frete grátis, garantia vitalícia e bateria que dura horas</li>
+          </ul>
+          <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONMEI_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmei_tier&utm_medium=invite_share&utm_source=revendedor">Plano Pro MEI/PJ: </a>
+          <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor">Plano Pro: </a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONSUPER_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor">Plano Super:</a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONMEGA_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">Plano Mega:</a>
+        </div>
+      </div>
+
+      <div class="maquininha">
+        <img alt="T3 Ton Pro" src="T3.png" />
+        <div class="maquininha-content">
+          <h3>T3</h3>
+          <ul>
+            <li>Conta com chip 3G, conexão Wi-Fi, comprovante por SMS</li>
+            <li>Aceita pagamento por aproximação e PIX na maquininha</li>
+            <li>Dispensa celular e imprime comprovantes</li>
+          </ul>
+<a class="button" href="https://ton.com.br/checkout/cart/?productId=TONMEI_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmei_tier&utm_medium=invite_share&utm_source=revendedor">Plano Pro MEI/PJ: </a>
+          <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor">Plano Pro: </a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONSUPER_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor">Plano Super:</a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONMEGA_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">Plano Mega:</a>
+        </div>
+      </div>
+
+      <div class="maquininha">
+        <img alt="T2+ Ton Pro" src="T2.png" />
+        <div class="maquininha-content">
+          <h3>T2+</h3>
+          <ul>
+            <li>Conta com chip 3G, conexão Wi-Fi, comprovante por SMS</li>
+            <li>Aceita pagamento por aproximação e PIX na maquininha</li>
+            <li>Sem uso de celular</li>
+          </ul>
+          <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D195&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor">Plano Pro: </a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONSUPER_D195&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor">Plano Super:</a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONMEGA_D195&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">Plano Mega:</a>
+        </div>
+      </div>
+
+      <div class="maquininha">
+        <img alt="T1 Ton Pro" src="T1.png" />
+        <div class="maquininha-content">
+          <h3>T1</h3>
+          <ul>
+            <li>Modelo simples, feito pra vender com facilidade.</li>
+            <li>Aceita pagamento por aproximação (NFC)</li>
+            <li>Usa app no celular e envia comprovante por SMS</li>
+          </ul>
+          <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D150&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor">Plano Pro: </a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONSUPER_D150&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor">Plano Super:</a>
+	  <a class="button" href="https://ton.com.br/checkout/cart/?productId=TONMEGA_D150&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">Plano Mega:</a>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section id="ancora_formas_pagamentos" style="scroll-margin-top: 8em;">
+    <h2>Impulsione suas vendas trabalhando com todas as formas de pagamento</h2>
+    <div class="pagamento-icons">
+      <img alt="Visa" src="logo-visa.svg">
+      <img alt="Mastercard" src="logo-master.svg">
+      <img alt="Elo" src="logo-elo.svg">
+      <img alt="American Express" src="logo-american-express.svg">
+      <img alt="Pix" src="logo-pix.svg">
+      <img alt="Apple Pay" src="applepay.png"/>
+      <img alt="Samsung Pay" src="samsungpay.png"/>
+    </div>
+  </section>
+  
+  <section id="ancora_planos" style="scroll-margin-top: 8em;">
+    <h2>Escolha o Plano Perfeito para o Seu Negócio</h2>
+    <p>Conheça nossos planos e suas vantagens exclusivas.</p>
+    
+    <div class="grid-planos">
+      <div class="plano">
+        <div class="plano-content">
+          <h3>Ton Pro</h3>
+          <ul>
+            <li>Taxas competitivas</li>
+            <li>Atendimento prioritário</li>
+            <li>Relatórios básicos</li>
+            <li>Suporte por WhatsApp</li>
+            <li>Grátis para pequenos negócios</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plano">
+        <div class="plano-content">
+          <h3>Ton Super</h3>
+          <ul>
+            <li>Todas as vantagens do Pro</li>
+            <li>Taxas ainda menores</li>
+            <li>Relatórios avançados</li>
+            <li>Suporte 24h</li>
+            <li>Antecipação de recebíveis</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plano">
+        <div class="plano-content">
+          <h3>Ton Mega</h3>
+          <ul>
+            <li>Todas as vantagens do Super</li>
+            <li>Taxas especiais</li>
+            <li>Consultoria personalizada</li>
+            <li>Maquininha premium</li>
+            <li>Programa de cashback</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="promo" id="ancora_taxas" style="scroll-margin-top: 8em;"> 
+    <h2>Taxas acessíveis e recebimento em até um dia útil</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Taxa Ofertada</th>
+          <th>Promocional</th>
+          <th>Até 2mil</th>
+          <th>Acima de 2mil</th>
+          <th>Recebimento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>PIX</td><td>0%</td><td>0%</td><td>0%</td><td>Na Hora</td></tr>
+        <tr><td>Débito</td><td>0,74%</td><td>1,69%</td><td>1,36%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito à vista</td><td>0,74%</td><td>3,49%</td><td>3,14%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 2x</td><td>3,99%</td><td>8,99%</td><td>5,63%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 3x</td><td>4,99%</td><td>10,99%</td><td>6,19%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 4x</td><td>5,99%</td><td>11,99%</td><td>6,99%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 5x</td><td>6,99%</td><td>12,99%</td><td>7,99%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 6x</td><td>7,99%</td><td>13,99%</td><td>8,99%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 7x</td><td>8,99%</td><td>14,99%</td><td>9,59%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 8x</td><td>8,99%</td><td>15,99%</td><td>9,99%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 9x</td><td>8,99%</td><td>16,99%</td><td>10,99%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 10x</td><td>8,99%</td><td>17,99%</td><td>11,99%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 11x</td><td>8,99%</td><td>17,99%</td><td>12,35%</td><td>No Mesmo Dia</td></tr>
+        <tr><td>Crédito 12x</td><td>8,99%</td><td>17,99%</td><td>12,39%</td><td>No Mesmo Dia</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+<section id="ancora_peca_sua" style="scroll-margin-top: 8em;">
+  <h2>Peça sua Maquininha Ton agora mesmo!</h2>
+  <p>Escolha o modelo e o plano para adicionar ao seu carrinho.</p>
+  
+  <div style="display: flex; gap: 2rem; margin: 1.5rem 0; align-items: flex-start;">
+    <!-- Coluna da imagem -->
+    <div id="maquininha-image-container" style="flex: 1; text-align: center; display: none;">
+      <img id="maquininha-image" src="" alt="Modelo selecionado" style="max-width: 250px; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    </div>
+    
+    <!-- Coluna dos selects -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 1rem; max-width: 500px;">
+      <div>
+        <label for="maquininha-select" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Selecione a Maquininha:</label>
+        <select id="maquininha-select" class="custom-select">
+          <option value="">Selecione uma opção</option>
+          <option value="T3 Smart" data-image="T3 Smart.png"
+                  data-mei-link="https://ton.com.br/checkout/cart/?productId=TONMEI_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmei_tier&utm_medium=invite_share&utm_source=revendedor"
+                  data-pro-link="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor" 
+                  data-super-link="https://ton.com.br/checkout/cart/?productId=TONSUPER_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor" 
+                  data-mega-link="https://ton.com.br/checkout/cart/?productId=TONMEGA_SMART_POS&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">T3 Smart</option>
+          <option value="T3" data-image="T3.png"
+                  data-mei-link="https://ton.com.br/checkout/cart/?productId=TONMEI_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmei_tier&utm_medium=invite_share&utm_source=revendedor"
+                  data-pro-link="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor" 
+                  data-super-link="https://ton.com.br/checkout/cart/?productId=TONSUPER_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor" 
+                  data-mega-link="https://ton.com.br/checkout/cart/?productId=TONMEGA_S920&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">T3</option>
+          <option value="T2+" data-image="T2.png"
+                  data-pro-link="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D195&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor" 
+                  data-super-link="https://ton.com.br/checkout/cart/?productId=TONSUPER_D195&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor" 
+                  data-mega-link="https://ton.com.br/checkout/cart/?productId=TONMEGA_D195&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">T2+</option>
+          <option value="T1" data-image="T1.png"
+                  data-pro-link="https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D150&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonpro_tier_nov24&utm_medium=invite_share&utm_source=revendedor" 
+                  data-super-link="https://ton.com.br/checkout/cart/?productId=TONSUPER_D150&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonsuper&utm_medium=invite_share&utm_source=revendedor" 
+                  data-mega-link="https://ton.com.br/checkout/cart/?productId=TONMEGA_D150&referrer=86401BCF-7E07-4093-9C01-893A709106C2&userAnticipation=0&userTag=tonmega&utm_medium=invite_share&utm_source=revendedor">T1</option>
+        </select>
+      </div>
+      
+      <div>
+        <label for="plano-select" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Selecione o Plano:</label>
+        <select id="plano-select" class="custom-select">
+          <option value="">Selecione uma opção</option>
+          <option value="Ton MEI/PJ">Ton MEI/PJ</option>
+          <option value="Ton Pro">Ton Pro</option>
+          <option value="Ton Super">Ton Super</option>
+          <option value="Ton Mega">Ton Mega</option>
+        </select>
+      </div>
+
+      <a id="add-to-cart-button" class="button" href="#" style="display: inline-flex; align-items: center; gap: 0.5rem; pointer-events: none; opacity: 0.7; cursor: not-allowed; margin-top: 1rem;">
+        <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const maquininhaSelect = document.getElementById('maquininha-select');
+    const planoSelect = document.getElementById('plano-select');
+    const addToCartButton = document.getElementById('add-to-cart-button');
+    const maquininhaImage = document.getElementById('maquininha-image');
+    const imageContainer = document.getElementById('maquininha-image-container');
+    
+    function updateAddToCartButton() {
+      const selectedMaquininha = maquininhaSelect.options[maquininhaSelect.selectedIndex];
+      const selectedPlano = planoSelect.value;
+      
+      // Atualiza a imagem
+      if (selectedMaquininha.value) {
+        maquininhaImage.src = selectedMaquininha.dataset.image;
+        imageContainer.style.display = 'block';
+      } else {
+        imageContainer.style.display = 'none';
+      }
+      
+      if (selectedMaquininha.value && selectedPlano) {
+        // Verifica se o plano MEI/PJ está disponível
+        if (selectedPlano === "Ton MEI/PJ" && !selectedMaquininha.dataset.meiLink) {
+          addToCartButton.style.backgroundColor = "#ccc";
+          addToCartButton.style.pointerEvents = "none";
+          addToCartButton.style.opacity = "0.7";
+          addToCartButton.style.cursor = "not-allowed";
+          addToCartButton.innerHTML = '<i class="fas fa-shopping-cart"></i> Plano não disponível';
+          return;
+        }
+        
+        // Habilita o botão
+        addToCartButton.style.backgroundColor = "var(--verde-ton)";
+        addToCartButton.style.pointerEvents = "auto";
+        addToCartButton.style.opacity = "1";
+        addToCartButton.style.cursor = "pointer";
+        addToCartButton.innerHTML = '<i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho';
+        
+        // Define o link correto com todos os parâmetros de afiliação
+        let link;
+        if (selectedPlano === "Ton MEI/PJ") link = selectedMaquininha.dataset.meiLink;
+        else if (selectedPlano === "Ton Pro") link = selectedMaquininha.dataset.proLink;
+        else if (selectedPlano === "Ton Super") link = selectedMaquininha.dataset.superLink;
+        else if (selectedPlano === "Ton Mega") link = selectedMaquininha.dataset.megaLink;
+        
+        addToCartButton.href = link;
+      } else {
+        // Desabilita o botão
+        addToCartButton.style.backgroundColor = "#ccc";
+        addToCartButton.style.pointerEvents = "none";
+        addToCartButton.style.opacity = "0.7";
+        addToCartButton.style.cursor = "not-allowed";
+        addToCartButton.innerHTML = '<i class="fas fa-shopping-cart"></i> Selecione as opções';
+      }
+    }
+    
+    // Event listeners
+    maquininhaSelect.addEventListener('change', updateAddToCartButton);
+    planoSelect.addEventListener('change', updateAddToCartButton);
+    
+    // Inicialização
+    updateAddToCartButton();
+    
+    // Abre em nova aba quando clicado
+    addToCartButton.addEventListener('click', function(e) {
+      if (this.href !== '#') {
+        e.preventDefault();
+        window.open(this.href, '_blank');
+        
+        // Feedback visual
+        const originalHtml = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-check"></i> Redirecionando...';
+        setTimeout(() => {
+          this.innerHTML = originalHtml;
+        }, 1500);
+      }
+    });
+  });
+</script>
+  <footer>
+    <p>© 2025 Maquininha Ton - Todos os direitos reservados - Parceiro Credenciado Stone</p>
+  </footer>
+</body>
+</html>

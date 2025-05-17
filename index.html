@@ -866,35 +866,42 @@
     };
 
     // Função para gerar a tabela
-   function atualizarTabela() {
-  const bandeira = document.getElementById('bandeira-select').value;
-  const prazo = document.getElementById('prazo-select').value;
-  const tabelaResultado = document.getElementById('tabela-resultado');
-  
-  const dados = dadosTaxas[`${bandeira}_${prazo}`] || dadosTaxas["visa-master_mesmo-dia"];
-  
-  // Construção otimizada da tabela
-  let html = '<table><thead><tr><th colspan="' + dados.colunas.length + '">' + dados.titulo + '</th></tr><tr>';
-  
-  dados.colunas.forEach(col => {
-    html += '<th>' + col + '</th>';
-  });
-  
-  html += '</tr></thead><tbody>';
-  
-  dados.linhas.forEach(linha => {
-    html += '<tr>';
-    linha.forEach((celula, index) => {
-      // A primeira célula de cada linha terá estilo diferente
-      const cellClass = index === 0 ? ' class="first-cell"' : '';
-      html += '<td' + cellClass + '>' + celula + '</td>';
-    });
-    html += '</tr>';
-  });
-  
-  html += '</tbody></table>';
-  tabelaResultado.innerHTML = html;
-}
+        // Função para gerar a tabela - VERSÃO CORRIGIDA
+    function atualizarTabela() {
+      const bandeira = document.getElementById('bandeira-select').value;
+      const prazo = document.getElementById('prazo-select').value;
+      const tabelaResultado = document.getElementById('tabela-resultado');
+      
+      const dados = dadosTaxas[`${bandeira}_${prazo}`] || dadosTaxas["visa-master_mesmo-dia"];
+      
+      // Construção otimizada da tabela
+      let html = '<table><thead>';
+      
+      // Linha do título principal (agora com estilo verde)
+      html += '<tr><th colspan="' + dados.colunas.length + '" style="background-color: var(--verde-ton); color: white;">' + dados.titulo + '</th></tr>';
+      
+      // Linha dos cabeçalhos das colunas
+      html += '<tr>';
+      dados.colunas.forEach(col => {
+        html += '<th style="background-color: var(--verde-ton); color: white;">' + col + '</th>';
+      });
+      html += '</tr>';
+      
+      html += '</thead><tbody>';
+      
+      dados.linhas.forEach(linha => {
+        html += '<tr>';
+        linha.forEach((celula, index) => {
+          // A primeira célula de cada linha terá estilo diferente
+          const cellClass = index === 0 ? ' class="first-cell"' : '';
+          html += '<td' + cellClass + '>' + celula + '</td>';
+        });
+        html += '</tr>';
+      });
+      
+      html += '</tbody></table>';
+      tabelaResultado.innerHTML = html;
+    }
 
     // Função para atualizar o botão de carrinho
     function updateAddToCartButton() {

@@ -26,6 +26,30 @@
       --transition: all 0.3s ease;
     }
 
+    @media (max-width: 768px) {
+  .filtros-taxas {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .filtro-container {
+    width: 100%;
+  }
+  
+  /* Melhoria na legibilidade */
+  .tabela-resultado td, 
+  .tabela-resultado th {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+  
+  /* Destaque para a primeira coluna */
+  .tabela-resultado td.first-cell {
+    font-weight: bold;
+    background-color: #f5f5f5;
+  }
+}
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -346,39 +370,71 @@
       box-shadow: 0 0 0 3px rgba(0, 176, 80, 0.2);
     }
     
-    .tabela-resultado {
-      margin-top: 1.5rem;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-    
-    .tabela-resultado table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-    
-    .tabela-resultado th, 
-    .tabela-resultado td {
-      padding: 10px 12px;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .tabela-resultado thead {
-      background-color: var(--verde-ton);
-      color: white;
-    }
-    
-    .tabela-resultado tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    
-    .tabela-resultado tbody tr:hover {
-      background-color: #f1fdf4;
-    }
+.tabela-resultado {
+  margin-top: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  overflow-x: auto; /* Permite rolagem horizontal */
+  -webkit-overflow-scrolling: touch; /* Rolagem suave em iOS */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.tabela-resultado table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Largura mínima para manter legibilidade */
+}
+
+.tabela-resultado th, 
+.tabela-resultado td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap; /* Evita quebra de linha */
+}
+
+.tabela-resultado th:first-child,
+.tabela-resultado td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.tabela-resultado thead {
+  background-color: var(--verde-ton);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.tabela-resultado tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabela-resultado tbody tr:hover {
+  background-color: #f1fdf4;
+}
+
+/* Aviso de rolagem para mobile */
+.tabela-scroll-hint {
+  display: none;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .tabela-scroll-hint {
+    display: block;
+  }
+  
+  .tabela-resultado {
+    border: 1px solid #e0e0e0;
+  }
+}
 
     /* Media Queries */
     @media (min-width: 480px) {
@@ -623,31 +679,33 @@
     </div>
   </section>
 
-  <section class="promo" id="ancora_taxas" style="scroll-margin-top: 13em;"> 
-    <h2>Taxas acessíveis e recebimento em até um dia útil</h2>
-    
-    <div class="filtros-taxas">
-      <div class="filtro-container">
-        <label for="bandeira-select">Bandeira:</label>
-        <select id="bandeira-select" class="filtro-select">
-          <option value="visa-master">Visa/Mastercard</option>
-          <option value="outras">Elo, American Express, Hipercard</option>
-        </select>
-      </div>
-      
-      <div class="filtro-container">
-        <label for="prazo-select">Prazo de recebimento:</label>
-        <select id="prazo-select" class="filtro-select">
-          <option value="mesmo-dia">No Mesmo Dia</option>
-          <option value="um-dia">Até 1 Dia Útil</option>
-        </select>
-      </div>
+ <section class="promo" id="ancora_taxas" style="scroll-margin-top: 13em;"> 
+  <h2>Taxas acessíveis e recebimento em até um dia útil</h2>
+  
+  <div class="filtros-taxas">
+    <div class="filtro-container">
+      <label for="bandeira-select">Bandeira:</label>
+      <select id="bandeira-select" class="filtro-select">
+        <option value="visa-master">Visa/Mastercard</option>
+        <option value="outras">Elo, American Express, Hipercard</option>
+      </select>
     </div>
     
-    <div class="tabela-resultado" id="tabela-resultado">
-      <!-- As tabelas serão carregadas aqui via JavaScript -->
+    <div class="filtro-container">
+      <label for="prazo-select">Prazo de recebimento:</label>
+      <select id="prazo-select" class="filtro-select">
+        <option value="mesmo-dia">No Mesmo Dia</option>
+        <option value="um-dia">Até 1 Dia Útil</option>
+      </select>
     </div>
-  </section>
+  </div>
+  
+  <div class="tabela-scroll-hint">← Role horizontalmente para ver toda a tabela →</div>
+  
+  <div class="tabela-resultado" id="tabela-resultado">
+    <!-- As tabelas serão carregadas aqui via JavaScript -->
+  </div>
+</section>
 
   <section id="ancora_peca_sua" style="scroll-margin-top: 13em;">
   <h2>Peça sua Maquininha Ton agora mesmo!</h2>
@@ -808,34 +866,35 @@
     };
 
     // Função para gerar a tabela
-    function atualizarTabela() {
-      const bandeira = document.getElementById('bandeira-select').value;
-      const prazo = document.getElementById('prazo-select').value;
-      const tabelaResultado = document.getElementById('tabela-resultado');
-      
-      // Cache dos dados
-      const dados = dadosTaxas[`${bandeira}_${prazo}`] || dadosTaxas["visa-master_mesmo-dia"];
-      
-      // Construção mais eficiente da tabela
-      let html = '<table><thead><tr><th colspan="6">' + dados.titulo + '</th></tr><tr>';
-      
-      dados.colunas.forEach(col => {
-        html += '<th>' + col + '</th>';
-      });
-      
-      html += '</tr></thead><tbody>';
-      
-      dados.linhas.forEach(linha => {
-        html += '<tr>';
-        linha.forEach(celula => {
-          html += '<td>' + celula + '</td>';
-        });
-        html += '</tr>';
-      });
-      
-      html += '</tbody></table>';
-      tabelaResultado.innerHTML = html;
-    }
+   function atualizarTabela() {
+  const bandeira = document.getElementById('bandeira-select').value;
+  const prazo = document.getElementById('prazo-select').value;
+  const tabelaResultado = document.getElementById('tabela-resultado');
+  
+  const dados = dadosTaxas[`${bandeira}_${prazo}`] || dadosTaxas["visa-master_mesmo-dia"];
+  
+  // Construção otimizada da tabela
+  let html = '<table><thead><tr><th colspan="' + dados.colunas.length + '">' + dados.titulo + '</th></tr><tr>';
+  
+  dados.colunas.forEach(col => {
+    html += '<th>' + col + '</th>';
+  });
+  
+  html += '</tr></thead><tbody>';
+  
+  dados.linhas.forEach(linha => {
+    html += '<tr>';
+    linha.forEach((celula, index) => {
+      // A primeira célula de cada linha terá estilo diferente
+      const cellClass = index === 0 ? ' class="first-cell"' : '';
+      html += '<td' + cellClass + '>' + celula + '</td>';
+    });
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table>';
+  tabelaResultado.innerHTML = html;
+}
 
     // Função para atualizar o botão de carrinho
     function updateAddToCartButton() {
